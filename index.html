@@ -19,26 +19,49 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #1B2A4A;
-    --navy-light: #24365c;
-    --navy-lighter: #2c4070;
+    /* LTLM brand palette */
+    --bg-base: #0C1F16;
+    --bg-mid: #0A1A13;
+    --bg-deep: #060F0B;
+
+    --card-top: #14291D;
+    --card-bottom: #0E2016;
+    --card-border: rgba(184, 145, 47, 0.22);
+    --card-border-hover: rgba(217, 177, 90, 0.55);
+
     --gold: #B8912F;
-    --gold-light: #d4ab3f;
-    --text: #EDEFF4;
-    --text-muted: #AEB9D1;
+    --gold-bright: #D9B15A;
+    --mint: #7FD9A8;
+    --blue: #5FA8D3;
+    --rust: #D9695A;
+
+    --cream: #F5F1E6;
+    --body-copy: #C7D0C9;
+    --muted-label: #8FA096;
+    --footnote: #6E7D74;
+
+    --font-heading: 'Gelasio', Georgia, serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', sans-serif;
   }
 
   * { box-sizing: border-box; }
 
+  html {
+    background: var(--bg-deep);
+  }
+
   body {
     margin: 0;
     min-height: 100vh;
-    background: var(--navy);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, var(--bg-mid) 0%, transparent 60%),
+      linear-gradient(180deg, var(--bg-base) 0%, var(--bg-mid) 45%, var(--bg-deep) 100%);
+    background-attachment: fixed;
+    color: var(--body-copy);
+    font-family: var(--font-body);
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -56,12 +79,13 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--gold);
+    outline: 2px solid var(--gold-bright);
     outline-offset: 2px;
   }
 
   h1, h2, h3 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-heading);
+    color: var(--cream);
   }
 
   .quiz-container, .results-container {
@@ -86,50 +110,60 @@
   }
 
   .home-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--cream);
     font-size: clamp(30px, 6.5vw, 46px);
-    line-height: 1.15;
+    line-height: 1.18;
     margin: 0 0 18px 0;
   }
 
   .home-subtitle {
     font-size: 16px;
     line-height: 1.6;
-    color: var(--text-muted);
+    color: var(--body-copy);
     max-width: 440px;
     margin: 0 0 36px 0;
   }
 
   .take-quiz-btn {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
+    font-family: var(--font-heading);
+    font-weight: 600;
     font-size: 19px;
-    color: #1B2A4A;
-    background: linear-gradient(135deg, #f5c451, var(--gold) 45%, #e2703a 100%);
+    color: var(--bg-deep);
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold) 100%);
     border: none;
     border-radius: 999px;
     padding: 20px 48px;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(226, 112, 58, 0.35), 0 4px 14px rgba(184, 145, 47, 0.3);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    box-shadow: 0 10px 30px rgba(184, 145, 47, 0.3), 0 4px 14px rgba(0, 0, 0, 0.35);
+    transition: box-shadow 0.15s ease, filter 0.15s ease;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .take-quiz-btn {
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+
+    .take-quiz-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .take-quiz-btn:active {
+      transform: translateY(0) scale(0.99);
+    }
   }
 
   .take-quiz-btn:hover {
-    transform: translateY(-2px) scale(1.02);
-    filter: brightness(1.05);
-    box-shadow: 0 14px 36px rgba(226, 112, 58, 0.45), 0 6px 18px rgba(184, 145, 47, 0.35);
-  }
-
-  .take-quiz-btn:active {
-    transform: translateY(0) scale(0.99);
+    filter: brightness(1.06);
+    box-shadow: 0 14px 36px rgba(184, 145, 47, 0.4), 0 6px 18px rgba(0, 0, 0, 0.4);
   }
 
   .home-meta {
     margin-top: 20px;
     font-size: 13px;
     letter-spacing: 0.03em;
-    color: var(--text-muted);
+    color: var(--muted-label);
   }
 
   /* ---------- Quiz screens ---------- */
@@ -137,7 +171,8 @@
   .progress-track {
     width: 100%;
     height: 8px;
-    background: var(--navy-light);
+    background: var(--card-bottom);
+    border: 1px solid var(--card-border);
     border-radius: 999px;
     overflow: hidden;
     margin-bottom: 12px;
@@ -145,7 +180,7 @@
 
   .progress-fill {
     height: 100%;
-    background: var(--gold);
+    background: linear-gradient(90deg, var(--gold), var(--gold-bright));
     border-radius: 999px;
     transition: width 0.3s ease;
     width: 5%;
@@ -153,16 +188,17 @@
 
   .progress-label {
     font-size: 13px;
-    color: var(--text-muted);
+    color: var(--muted-label);
     margin-bottom: 32px;
     text-align: right;
   }
 
   .question-text {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 600;
+    color: var(--cream);
     font-size: clamp(20px, 4vw, 26px);
-    line-height: 1.35;
+    line-height: 1.4;
     margin: 0 0 28px 0;
   }
 
@@ -179,14 +215,14 @@
   }
 
   .option {
-    background: var(--navy-light);
-    border: 1.5px solid transparent;
+    background: linear-gradient(160deg, var(--card-top), var(--card-bottom));
+    border: 1.5px solid var(--card-border);
     border-radius: 12px;
     padding: 16px 18px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-size: 15px;
     line-height: 1.5;
-    color: var(--text);
+    color: var(--body-copy);
     text-align: left;
     cursor: pointer;
     user-select: none;
@@ -194,19 +230,30 @@
     transition: border-color 0.15s ease, background 0.15s ease;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .option {
+      transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+    }
+
+    .option:hover, .option:active {
+      transform: scale(1.01);
+    }
+  }
+
   .option:hover {
-    border-color: rgba(184, 145, 47, 0.4);
+    border-color: var(--card-border-hover);
   }
 
   .option.selected {
-    border-color: var(--gold);
-    background: rgba(184, 145, 47, 0.12);
+    border-color: var(--mint);
+    background: linear-gradient(160deg, rgba(127, 217, 168, 0.14), var(--card-bottom));
+    color: var(--cream);
   }
 
   .option:focus-visible {
-    outline: 2px solid var(--gold);
+    outline: 2px solid var(--gold-bright);
     outline-offset: 2px;
-    border-color: var(--gold);
+    border-color: var(--gold-bright);
   }
 
   .nav-row {
@@ -214,26 +261,44 @@
     justify-content: flex-end;
   }
 
-  .next-btn, .retake-btn {
-    font-family: 'Space Grotesk', sans-serif;
+  .next-btn {
+    font-family: var(--font-heading);
     font-weight: 600;
     font-size: 15px;
-    color: var(--navy);
-    background: var(--gold);
+    color: var(--bg-deep);
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold));
     border: none;
     border-radius: 10px;
     padding: 14px 32px;
     cursor: pointer;
-    transition: background 0.15s ease, opacity 0.15s ease;
+    transition: filter 0.15s ease, opacity 0.15s ease;
   }
 
-  .next-btn:hover:not(:disabled), .retake-btn:hover {
-    background: var(--gold-light);
+  .next-btn:hover:not(:disabled) {
+    filter: brightness(1.08);
   }
 
   .next-btn:disabled {
     opacity: 0.35;
     cursor: not-allowed;
+  }
+
+  .retake-btn {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--gold-bright);
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    border-radius: 10px;
+    padding: 13px 30px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  }
+
+  .retake-btn:hover {
+    border-color: var(--gold-bright);
+    background: rgba(184, 145, 47, 0.1);
   }
 
   /* ---------- Results screen ---------- */
@@ -242,30 +307,31 @@
     font-size: 13px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--gold-light);
+    color: var(--gold-bright);
     font-weight: 600;
     margin: 0 0 8px 0;
   }
 
   .archetype-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--cream);
     font-size: clamp(28px, 6vw, 38px);
-    line-height: 1.15;
+    line-height: 1.2;
     margin: 0 0 16px 0;
   }
 
   .archetype-description {
     font-size: 16px;
     line-height: 1.6;
-    color: var(--text);
+    color: var(--body-copy);
     margin: 0 0 32px 0;
   }
 
   .teaser {
     font-size: 17px;
     line-height: 1.55;
-    color: var(--text);
+    color: var(--body-copy);
     margin: 0 0 28px 0;
   }
 
@@ -275,7 +341,7 @@
     position: relative;
     padding-top: 24px;
     margin-top: 24px;
-    border-top: 1px solid var(--navy-light);
+    border-top: 1px solid var(--card-border);
   }
 
   .locked-section.locked {
@@ -295,18 +361,18 @@
     display: block;
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 25%, var(--navy) 90%);
+    background: linear-gradient(to bottom, transparent 25%, var(--bg-base) 90%);
   }
 
   .email-gate {
     position: relative;
     z-index: 2;
-    background: var(--navy-light);
-    border: 1px solid rgba(184, 145, 47, 0.25);
+    background: linear-gradient(160deg, var(--card-top), var(--card-bottom));
+    border: 1px solid var(--card-border);
     border-radius: 16px;
     padding: 24px;
     margin-top: -36px;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
     transition: opacity 0.4s ease;
   }
 
@@ -315,8 +381,9 @@
   }
 
   .gate-eyebrow {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 600;
+    color: var(--cream);
     font-size: 16px;
     margin: 0 0 8px 0;
   }
@@ -324,7 +391,7 @@
   .gate-copy {
     font-size: 14px;
     line-height: 1.55;
-    color: var(--text-muted);
+    color: var(--body-copy);
     margin: 0 0 18px 0;
   }
 
@@ -336,44 +403,44 @@
 
   .email-input {
     width: 100%;
-    background: var(--navy);
-    border: 1.5px solid var(--navy-lighter);
+    background: var(--bg-deep);
+    border: 1.5px solid var(--card-border);
     border-radius: 10px;
     padding: 13px 16px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-size: 15px;
-    color: var(--text);
+    color: var(--cream);
   }
 
   .email-input::placeholder {
-    color: var(--text-muted);
+    color: var(--footnote);
   }
 
   .email-input:focus-visible {
-    outline: 2px solid var(--gold);
+    outline: 2px solid var(--gold-bright);
     outline-offset: 2px;
-    border-color: var(--gold);
+    border-color: var(--gold-bright);
   }
 
   .email-input[aria-invalid="true"] {
-    border-color: #e2917f;
+    border-color: var(--rust);
   }
 
   .unlock-btn {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 600;
     font-size: 15px;
-    color: var(--navy);
-    background: var(--gold);
+    color: var(--bg-deep);
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold));
     border: none;
     border-radius: 10px;
     padding: 14px 24px;
     cursor: pointer;
-    transition: background 0.15s ease, opacity 0.15s ease;
+    transition: filter 0.15s ease, opacity 0.15s ease;
   }
 
   .unlock-btn:hover:not(:disabled) {
-    background: var(--gold-light);
+    filter: brightness(1.08);
   }
 
   .unlock-btn:disabled {
@@ -383,14 +450,14 @@
 
   .email-error {
     font-size: 13px;
-    color: #e2917f;
+    color: var(--rust);
     margin: 4px 0 0 0;
   }
 
   .email-microcopy {
     font-size: 12px;
     line-height: 1.5;
-    color: var(--text-muted);
+    color: var(--footnote);
     margin: 12px 0 0 0;
   }
 
@@ -405,7 +472,7 @@
 
   .tier-badge {
     display: inline-block;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 600;
     font-size: 12px;
     letter-spacing: 0.05em;
@@ -416,36 +483,38 @@
   }
 
   .tier-badge.confirmed {
-    background: rgba(76, 175, 105, 0.18);
-    color: #7fd99a;
+    background: rgba(127, 217, 168, 0.16);
+    color: var(--mint);
   }
 
   .tier-badge.caveat {
     background: rgba(184, 145, 47, 0.2);
-    color: var(--gold-light);
+    color: var(--gold-bright);
   }
 
   .tier-badge.rerouted {
-    background: rgba(198, 108, 92, 0.2);
-    color: #e2917f;
+    background: rgba(217, 105, 90, 0.18);
+    color: var(--rust);
   }
 
   .results-section {
-    border-top: 1px solid var(--navy-light);
+    border-top: 1px solid var(--card-border);
     padding-top: 24px;
     margin-top: 24px;
   }
 
   .results-section h2 {
+    font-family: var(--font-heading);
     font-size: 18px;
     font-weight: 600;
+    color: var(--cream);
     margin: 0 0 14px 0;
   }
 
   .results-section p {
     font-size: 15px;
     line-height: 1.65;
-    color: var(--text);
+    color: var(--body-copy);
     margin: 0 0 12px 0;
   }
 
@@ -458,7 +527,7 @@
     font-size: 15px;
     line-height: 1.6;
     margin-bottom: 10px;
-    color: var(--text);
+    color: var(--body-copy);
   }
 
   .dimension-table {
@@ -471,11 +540,11 @@
   .dimension-table th, .dimension-table td {
     text-align: left;
     padding: 10px 8px;
-    border-bottom: 1px solid var(--navy-light);
+    border-bottom: 1px solid var(--card-border);
   }
 
   .dimension-table th {
-    color: var(--text-muted);
+    color: var(--muted-label);
     font-weight: 500;
     font-size: 12px;
     text-transform: uppercase;
@@ -483,21 +552,31 @@
   }
 
   .dimension-table td.num {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 600;
-    color: var(--gold-light);
+    color: var(--blue);
+  }
+
+  .dimension-table th:last-child, .dimension-table td:last-child {
+    color: var(--gold-bright);
+  }
+
+  .dimension-table td.num:last-of-type {
+    color: var(--gold-bright);
   }
 
   .tier-note {
-    background: var(--navy-light);
+    background: linear-gradient(160deg, var(--card-top), var(--card-bottom));
+    border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 16px 18px;
     font-size: 15px;
     line-height: 1.6;
+    color: var(--body-copy);
   }
 
   .tier-note strong {
-    color: var(--gold-light);
+    color: var(--gold-bright);
   }
 
   .retake-row {
@@ -514,10 +593,10 @@
 
   .qa-toggle summary {
     cursor: pointer;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 600;
     font-size: 14px;
-    color: var(--gold-light);
+    color: var(--gold-bright);
     padding: 8px 0;
     list-style: none;
   }
@@ -538,7 +617,7 @@
   }
 
   .qa-toggle summary:focus-visible {
-    outline: 2px solid var(--gold);
+    outline: 2px solid var(--gold-bright);
     outline-offset: 4px;
   }
 
@@ -562,14 +641,14 @@
   .qa-table th, .qa-table td {
     text-align: left;
     padding: 9px 8px;
-    border-bottom: 1px solid var(--navy-light);
+    border-bottom: 1px solid var(--card-border);
     white-space: normal;
     word-break: break-word;
     vertical-align: middle;
   }
 
   .qa-table th {
-    color: var(--text-muted);
+    color: var(--muted-label);
     font-weight: 500;
     font-size: 11px;
     text-transform: uppercase;
@@ -577,9 +656,9 @@
   }
 
   .qa-table td.num {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 600;
-    color: var(--gold-light);
+    color: var(--blue);
     white-space: nowrap;
   }
 
@@ -599,13 +678,13 @@
   }
 
   .qa-tag.stage1 {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-muted);
+    background: rgba(143, 160, 150, 0.16);
+    color: var(--muted-label);
   }
 
   .qa-tag.final {
     background: rgba(184, 145, 47, 0.25);
-    color: var(--gold-light);
+    color: var(--gold-bright);
   }
 
   /* ---------- Disclaimer ---------- */
@@ -613,14 +692,14 @@
   .disclaimer {
     margin-top: 32px;
     padding-top: 20px;
-    border-top: 1px solid var(--navy-light);
+    border-top: 1px solid var(--card-border);
     font-size: 12.5px;
     line-height: 1.6;
-    color: var(--text-muted);
+    color: var(--footnote);
   }
 
   .disclaimer strong {
-    color: var(--text);
+    color: var(--muted-label);
   }
 
   /* ---------- Mobile-friendly tweaks ---------- */
