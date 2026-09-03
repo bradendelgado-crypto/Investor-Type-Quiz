@@ -73,6 +73,65 @@
     display: none !important;
   }
 
+  /* ---------- Home screen ---------- */
+
+  .home-container {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 12vh;
+  }
+
+  .home-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(30px, 6.5vw, 46px);
+    line-height: 1.15;
+    margin: 0 0 18px 0;
+  }
+
+  .home-subtitle {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: 440px;
+    margin: 0 0 36px 0;
+  }
+
+  .take-quiz-btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: #1B2A4A;
+    background: linear-gradient(135deg, #f5c451, var(--gold) 45%, #e2703a 100%);
+    border: none;
+    border-radius: 999px;
+    padding: 20px 48px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(226, 112, 58, 0.35), 0 4px 14px rgba(184, 145, 47, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  }
+
+  .take-quiz-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.05);
+    box-shadow: 0 14px 36px rgba(226, 112, 58, 0.45), 0 6px 18px rgba(184, 145, 47, 0.35);
+  }
+
+  .take-quiz-btn:active {
+    transform: translateY(0) scale(0.99);
+  }
+
+  .home-meta {
+    margin-top: 20px;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    color: var(--text-muted);
+  }
+
   /* ---------- Quiz screens ---------- */
 
   .progress-track {
@@ -567,6 +626,16 @@
   /* ---------- Mobile-friendly tweaks ---------- */
 
   @media (max-width: 480px) {
+    .home-container {
+      padding-top: 8vh;
+    }
+
+    .take-quiz-btn {
+      width: 100%;
+      padding: 18px 24px;
+      font-size: 17px;
+    }
+
     .question-text {
       margin-bottom: 22px;
     }
@@ -602,7 +671,15 @@
 </head>
 <body>
 
-<div class="quiz-container" id="quizContainer">
+<div class="home-container" id="homeContainer">
+  <p class="results-eyebrow">Investor Type Quiz</p>
+  <h1 class="home-title">What's Your Investing Personality?</h1>
+  <p class="home-subtitle">Answer 20 quick questions about how you think, feel, and act with money to find out which of 8 investor archetypes fits you best.</p>
+  <button class="take-quiz-btn" id="takeQuizBtn">Take the Quiz</button>
+  <p class="home-meta">8 archetypes · 20 questions · 2 minutes</p>
+</div>
+
+<div class="quiz-container hidden" id="quizContainer">
   <div class="progress-track">
     <div class="progress-fill" id="progressFill"></div>
   </div>
@@ -922,6 +999,8 @@
   let allArchetypeMismatches = []; // [{ archetype, mismatch }] for all 8, computed once Stage 2 is done
   let emailUnlocked = false; // true once the user has submitted a valid email on the results screen
 
+  const homeContainer = document.getElementById('homeContainer');
+  const takeQuizBtn = document.getElementById('takeQuizBtn');
   const quizContainer = document.getElementById('quizContainer');
   const resultsContainer = document.getElementById('resultsContainer');
   const questionText = document.getElementById('questionText');
@@ -1355,7 +1434,11 @@
     renderQuestion();
   });
 
-  renderQuestion();
+  takeQuizBtn.addEventListener('click', () => {
+    homeContainer.classList.add('hidden');
+    quizContainer.classList.remove('hidden');
+    renderQuestion();
+  });
 </script>
 
 </body>
